@@ -4,6 +4,10 @@ test_pod:
   pullPolicy: IfNotPresent
 
 loki:
+  commonConfig:
+    replication_factor: 1
+  storage:
+    type: "filesystem"
   enabled: true
   isDefault: true
   url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
@@ -20,7 +24,6 @@ loki:
   datasource:
     jsonData: "{}"
     uid: ""
-
 
 promtail:
   enabled: true
@@ -45,7 +48,7 @@ grafana:
     tag: 8.3.5
 
 prometheus:
-  enabled: false
+  enabled: true
   isDefault: false
   url: http://{{ include "prometheus.fullname" .}}:{{ .Values.prometheus.server.service.servicePort }}{{ .Values.prometheus.server.prefixURL }}
   datasource:
