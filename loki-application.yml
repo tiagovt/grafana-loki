@@ -14,7 +14,7 @@ spec:
     namespace: loki
   project: default  
   source:
-    repoURL: 'git@github.com:uzieljr/loki.git'
+    repoURL: 'https://github.com/tiagovt/grafana-loki.git'
     path: loki-stack
     targetRevision: HEAD
     helm:
