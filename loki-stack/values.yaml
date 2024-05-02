@@ -6,10 +6,25 @@ test_pod:
 loki:
   commonConfig:
     replication_factor: 1
-  storage:
-    type: "filesystem"
+  persistence:
+    enabled: true
+    existingClaim: storage-loki
+    storageClassName: efs-sc
+    size: 10Gi
   enabled: true
-  isDefault: true
+  securityContext:
+    privileged: true
+    runAsGroup: 0
+    runAsNonRoot: false
+    runAsUser: 0
+  command:
+    - sh
+    - -c
+    - >-
+      id;
+      ls -la /data/;
+      mkdir -p /data/global/loki;
+      chown 10001:10001 /data/global/loki
   url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
   readinessProbe:
     httpGet:
